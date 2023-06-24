@@ -2,7 +2,8 @@ import math
 import re
 
 
-def Z_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
+def Z_statistik(text_file):
+    
     with open(text_file, 'r') as file:
         text = file.read()
     
@@ -35,7 +36,7 @@ def Z_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
     # Ausgabe der Entropie des Textes
     print("Entropie des Textes:", entropy)
 
-def Z2_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
+def Z2_statistik(text_file):
     with open(text_file, 'r') as file:
         text = file.read()
         
@@ -63,7 +64,7 @@ def Z2_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
     
     print("Entropie der Zeichentupel-Menge:", entropy)
 
-def W_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
+def W_statistik(text_file):
     with open(text_file, 'r') as file:
         text = file.read()
     
@@ -95,12 +96,12 @@ def W_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(text_file):
 file = "Test.txt"
 
 print("\n\nAufgabe a)")
-Z_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(file)
+Z_statistik(file)
 
 print("\n\nAufgabe b)")
-Z2_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(file)
+Z2_statistik(file)
 
 print("\n\nAufgabe c)")
-W_𝑠𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑘(file)
+W_statistik(file)
 
 
