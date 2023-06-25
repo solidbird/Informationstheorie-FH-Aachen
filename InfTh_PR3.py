@@ -5,6 +5,7 @@ Created on Sat Jun 24 10:52:00 2023
 @author: Ich
 """
 import math
+from decimal import Decimal
 
 def safe_floating_num(num):
     pass
@@ -45,8 +46,9 @@ def Z_statistik(text_file):
     # Ausgabe der Entropie des Textes
    # print("Entropie des Textes:", entropy)
 
+#probabilities = { 'a': 1/2, 'b': 1/4, 'c': 1/8, 'd': 1/16, 'e': 1/16 }
 probabilities = Z_statistik("Test.txt")
-
+probabilities = dict(sorted(probabilities.items()))
 w = "bade"
 
 with open("Test.txt", 'r', encoding="utf-8") as file:
@@ -61,12 +63,13 @@ def Q_ACencoder(word):
     
     prev_start = 0
     
-    num_keys = [] 
+    builder = "" 
+    counter = 0
+    
+    lol = ""
     
     for c in word:
-        if c == '_':
-            print("Interval für '",word[:len(word)-1],"' ist [",low,";",high,")")
-            return
+
         start = prev_start
         delta = high - low
         
@@ -75,10 +78,20 @@ def Q_ACencoder(word):
         for a,p in probabilities.items():
             prev_start = start
             
-            start = (start + delta * p)
+            start = Decimal(start) + Decimal(delta) * Decimal(p)
+            #start = start + delta * p
             
             print("[",(prev_start),";",(start),"] -> ", a)
             if c == a:
+                counter = counter + 1
+                lol += c
+                print("AAAAAAAAAAAAAAAA: ", lol)
+                
+                if counter % 20 == 0:
+                    builder += str((low+high)/2)
+                    prev_start = 0
+                    start = 1
+                                    
                 #word += a
                 high = start
                 low = prev_start
@@ -86,10 +99,12 @@ def Q_ACencoder(word):
                 break
             
         print("high -> ",high)
-    
+        
     print((low+high)/2)
     
-    return (low+high)/2
+    
+    builder += str((low+high)/2)
+    return builder 
             
 
             
@@ -98,40 +113,66 @@ def Q_ACencoder(word):
 #        start = prev_start + delta * p[w]
 
 def Q_ACdecoder(code):
+    index = 0
+    counter = 0
+    
     low = 0    
     high = 1
     
     prev_start = 0
     
-    stop = False
-    build = ""
+    nums=[Decimal("0." + x) for x in code.split("0.")]
+    nums=nums[1:len(nums)]
     
-    num_keys = [] 
+    num = 0    
     
+    word_builder = ""
     
-    
-    while not (high+low)/2 == code:
+    while nums[-1] != num:
+        
         start = prev_start
         delta = high - low
         
-        
-        #print("low -> ",low)
         for a,p in probabilities.items():
             prev_start = start
-            start = (start + delta * p)
             
-            if prev_start <= code and start > code:
-                build += a
+            start = Decimal(start) + Decimal(delta) * Decimal(p)
+            debug_start = float(start)
+            debug_prev_start = float(prev_start)
+            debug_num = float(nums[index])
+            
+            
+            if nums[index] == (prev_start+start)/2:
+                num = (prev_start+start)/2
+                word_builder += a
+                
+                
+                
+                
+                if counter % 20 == 0:
+                    index = index + 1
+                    prev_start = 0
+                    start = 1
+                
+                break
+            
+            
+            if prev_start <= nums[index] and start > nums[index]:
+                
+                
                 high = start
                 low = prev_start
                 start = prev_start
-                break
-        
-        #print("high -> ",high)
-        print("WORD: ", build, " Prob: ", (high+low)/2 - code)
-        
+             
+                
+            
 
+    return word_builder
+    
+    
 enc = Q_ACencoder(w)
+print(enc)
 dec = Q_ACdecoder(enc)
+print(dec)
 #print(Z_statistik("Test.txt"))
 
