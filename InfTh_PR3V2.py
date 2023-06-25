@@ -8,8 +8,6 @@ Created on Sun Jun 25 15:25:45 2023
 import math
 from decimal import Decimal
 
-def safe_floating_num(num):
-    pass
 
 def Z_statistik(text_file):
     
@@ -31,18 +29,8 @@ def Z_statistik(text_file):
     probs = {}
     info_content = {}
     for char, count in char_count.items():
-        probs[char] = count / total_chars
-        info_content[char] = -math.log2(probs[char])
+        probs[char] = Decimal(count) / Decimal(total_chars)
         
-    # Ausgabe der Buchstaben und deren Informationsgehalt
-    #print("Buchstaben und deren Informationsgehalt:")
-    for char, info in info_content.items():
-        pass
-        #print(char, info)
-    
-    # Berechnen der Entropie des Textes
-    entropy = sum(probs[char] * info_content[char] for char in char_count)
-    
     return probs
     
     # Ausgabe der Entropie des Textes
