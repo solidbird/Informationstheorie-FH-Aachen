@@ -81,12 +81,15 @@ def Q_ACencoder(word):
             
             print(a, (prev_start+start)/2)
             
+            
+            
             if counter != 0 and counter % 20 == 0:
                 builder.append(Decimal((low+high)/2))
                 prev_start = 0
                 start = 1
             
             counter = counter + 1
+            
             
             low = prev_start
             high = start
@@ -112,6 +115,11 @@ def Q_ACdecoder(code):
     for c in code:
         
         prev_start = 0
+        start = 1
+        
+        low = prev_start
+        high = start
+        start = prev_start
         
         while c != Decimal((high+low)/2):
             start = prev_start
@@ -124,14 +132,18 @@ def Q_ACdecoder(code):
                 if not(prev_start <= c and start > c):
                     continue
                 
+                print(build_word)
+                build_word += a
+                
+                
+                
+                
                 if counter != 0 and counter % 20 == 0:
                     prev_start = 0
                     start = 1
-                    
+                
                 counter = counter + 1
                 
-                print(build_word)
-                build_word += a
                 
                 low = prev_start
                 high = start
